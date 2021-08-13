@@ -61,15 +61,22 @@ public class UsersController {
             var response = new CustomizedResponse("Cannot create user with incomplete details!", null);
             return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } else {
-            String userID = userService.getUserByEmail(user.getEmail()).getId();
-            if(userID.isEmpty()) {
+            try {
+                String userID = userService.getUserByEmail(user.getEmail()).getId();
+                if (userID.isEmpty()) {
+                    var response = new CustomizedResponse(
+                            "User created successfully!",
+                            Collections.singletonList(userService.createUser(user)));
+                    return new ResponseEntity(response, HttpStatus.CREATED);
+                } else {
+                    var response = new CustomizedResponse("User of this email already exists!", null);
+                    return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+                }
+            } catch (NullPointerException nex) {
                 var response = new CustomizedResponse(
                         "User created successfully!",
                         Collections.singletonList(userService.createUser(user)));
                 return new ResponseEntity(response, HttpStatus.CREATED);
-            } else {
-                var response = new CustomizedResponse("User of this email already exists!", null);
-                return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
             }
         }
     }
