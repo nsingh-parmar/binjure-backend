@@ -56,14 +56,21 @@ public class UsersController {
             MediaType.APPLICATION_JSON_VALUE
     })
     public ResponseEntity createUser(@RequestBody UserModel user) {
-        if(user.getFirstName().isEmpty() || user.getLastName().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
+        var email = user.getEmail();
+        if(user.getFirstName().isEmpty() || user.getLastName().isEmpty() || email.isEmpty() || user.getPassword().isEmpty()) {
             var response = new CustomizedResponse("Cannot create user with incomplete details!", null);
             return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
         } else {
-            var response = new CustomizedResponse(
-                    "User created successfully!",
-                    Collections.singletonList(userService.createUser(user)));
-            return new ResponseEntity(response, HttpStatus.CREATED);
+            String userID = userService.getUserByEmail(user.getEmail()).getId();
+            if(userID.isEmpty()) {
+                var response = new CustomizedResponse(
+                        "User created successfully!",
+                        Collections.singletonList(userService.createUser(user)));
+                return new ResponseEntity(response, HttpStatus.CREATED);
+            } else {
+                var response = new CustomizedResponse("User of this email already exists!", null);
+                return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+            }
         }
     }
 
