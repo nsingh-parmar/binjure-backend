@@ -51,7 +51,7 @@ public class MovieController {
             String fetchId = fetchResponse.getId();
             customizedResponse = new CustomizedResponse(
                     "Movie with id " + id,
-                    Collections.singletonList(fetchId));
+                    Collections.singletonList(fetchResponse));
             return new ResponseEntity(customizedResponse, HttpStatus.OK);
         } catch (Exception e) {
             customizedResponse = new CustomizedResponse(e.getMessage(), null);

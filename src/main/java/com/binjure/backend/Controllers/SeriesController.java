@@ -50,7 +50,7 @@ public class SeriesController {
             String fetchId = fetchResponse.getId();
             customizedResponse = new CustomizedResponse(
                     "Series with id " + id,
-                    Collections.singletonList(fetchId));
+                    Collections.singletonList(fetchResponse));
             return new ResponseEntity(customizedResponse, HttpStatus.OK);
         } catch (Exception e) {
             customizedResponse = new CustomizedResponse(e.getMessage(), null);
