@@ -54,7 +54,7 @@ public class MovieController {
                     Collections.singletonList(fetchResponse));
             return new ResponseEntity(customizedResponse, HttpStatus.OK);
         } catch (Exception e) {
-            customizedResponse = new CustomizedResponse(e.getMessage(), null);
+            customizedResponse = new CustomizedResponse("No movie found with this ID", null);
             return new ResponseEntity(customizedResponse, HttpStatus.NOT_FOUND);
         }
     }
