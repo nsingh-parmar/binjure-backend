@@ -55,7 +55,9 @@ public class MovieController {
             return new ResponseEntity(customizedResponse, HttpStatus.NOT_FOUND);
 
         }
-        return new ResponseEntity(customizedResponse, HttpStatus.OK);
+        return new ResponseEntity(
+                new CustomizedResponse("No movie of this ID was found", null),
+                HttpStatus.NOT_FOUND);
     }
 
 

@@ -52,10 +52,12 @@ public class SeriesController {
                     Collections.singletonList(seriesService.getSeriesById(id)));
         } catch (Exception e) {
             customizedResponse = new CustomizedResponse(e.getMessage(), null);
-            return new ResponseEntity(customizedResponse, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(customizedResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
-        return new ResponseEntity(customizedResponse, HttpStatus.OK);
+        return new ResponseEntity(
+                new CustomizedResponse("No series of this ID was found", null),
+                HttpStatus.NOT_FOUND);
     }
 
 
