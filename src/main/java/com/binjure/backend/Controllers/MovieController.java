@@ -47,17 +47,16 @@ public class MovieController {
 
         CustomizedResponse customizedResponse = null;
         try {
+            var fetchResponse = movieService.getMovieById(id);
+            String fetchId = fetchResponse.getId();
             customizedResponse = new CustomizedResponse(
                     "Movie with id " + id,
-                    Collections.singletonList(movieService.getMovieById(id)));
+                    Collections.singletonList(fetchId));
+            return new ResponseEntity(customizedResponse, HttpStatus.OK);
         } catch (Exception e) {
             customizedResponse = new CustomizedResponse(e.getMessage(), null);
             return new ResponseEntity(customizedResponse, HttpStatus.NOT_FOUND);
-
         }
-        return new ResponseEntity(
-                new CustomizedResponse("No movie of this ID was found", null),
-                HttpStatus.NOT_FOUND);
     }
 
 

@@ -44,20 +44,19 @@ public class SeriesController {
 
     @GetMapping("/api/series/{id}")
     public ResponseEntity getSeriesById(@PathVariable("id")String id) {
-
         CustomizedResponse customizedResponse = null;
         try {
+            var fetchResponse = seriesService.getSeriesById(id);
+            String fetchId = fetchResponse.getId();
             customizedResponse = new CustomizedResponse(
                     "Series with id " + id,
-                    Collections.singletonList(seriesService.getSeriesById(id)));
+                    Collections.singletonList(fetchId));
+            return new ResponseEntity(customizedResponse, HttpStatus.OK);
         } catch (Exception e) {
             customizedResponse = new CustomizedResponse(e.getMessage(), null);
             return new ResponseEntity(customizedResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
-        return new ResponseEntity(
-                new CustomizedResponse("No series of this ID was found", null),
-                HttpStatus.NOT_FOUND);
     }
 
 
